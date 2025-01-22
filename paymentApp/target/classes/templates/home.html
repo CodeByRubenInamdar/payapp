@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>PayApp - Home</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <style>
+        .hero-section {
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin: 10px 0 30px;
+        }
+
+        .features {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #00c9ff;
+        }
+
+        .actions-section {
+            padding: 50px 20px;
+            background-color: #f8f9fa;
+        }
+
+        .actions-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .card {
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+        }
+
+        .footer {
+            background: #343a40;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <th:block th:replace="~{navbar.html}"></th:block>
+
+    <!-- Hero Section -->
+    <section class="hero-section" th:if="${session.loggedInUser == null}">
+        <h1 class="hero-title">Welcome to PayApp</h1>
+        <p class="hero-subtitle">Secure. Fast. Reliable. Your digital payment partner.</p>
+        <a href="/users/register" class="btn btn-primary btn-lg">Get Started</a>
+    </section>
+
+    <!-- Alternate Hero Section for Logged-in Users -->
+    <section class="hero-section" th:if="${session.loggedInUser != null}">
+        <h1 class="hero-title">Welcome, <span th:text="${session.loggedInUser.name}">User</span>!</h1>
+        <p class="hero-subtitle">Manage your payments and transactions effortlessly.</p>
+        <a href="/transactions/send" class="btn btn-success btn-lg">Send Money</a>
+        <a href="/transactions/history" class="btn btn-primary btn-lg">View Transactions</a>
+    </section>
+
+	<!-- Actions Section -->
+	   <section class="actions-section" th:if="${session.loggedInUser != null}">
+	       <h2 class="actions-title">What would you like to do?</h2>
+	       <div class="container">
+	           <div class="row text-center">
+	               <div class="col-md-4">
+	                   <div class="card shadow">
+	                       <div class="card-body">
+	                           <i class="bi bi-send-fill text-primary" style="font-size: 2.5rem;"></i>
+	                           <h5 class="card-title mt-3">Send Money</h5>
+	                           <p class="card-text">Transfer funds securely to anyone, anytime.</p>
+	                           <a href="/transactions/send" class="btn btn-primary">Send Now</a>
+	                       </div>
+	                   </div>
+	               </div>
+	               <div class="col-md-4">
+	                   <div class="card shadow">
+	                       <div class="card-body">
+	                           <i class="bi bi-clock-history text-success" style="font-size: 2.5rem;"></i>
+	                           <h5 class="card-title mt-3">Transaction History</h5>
+	                           <p class="card-text">View your past transactions with ease.</p>
+	                           <a href="/transactions/history" class="btn btn-success">View History</a>
+	                       </div>
+	                   </div>
+	               </div>
+	               <div class="col-md-4">
+	                   <div class="card shadow">
+	                       <div class="card-body">
+	                           <i class="bi bi-wallet2 text-warning" style="font-size: 2.5rem;"></i>
+	                           <h5 class="card-title mt-3">Check Balance</h5>
+	                           <p class="card-text">Stay updated on your wallet balance.</p>
+	                           <a href="/users/check-balance" class="btn btn-warning">Check Now</a>
+	                       </div>
+	                   </div>
+	               </div>
+	           </div>
+	       </div>
+	   </section>
+	   
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-icon mb-3">
+                        <i class="bi bi-shield-lock-fill"></i>
+                    </div>
+                    <h4>Secure Payments</h4>
+                    <p>All your transactions are encrypted and secure with us.</p>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-icon mb-3">
+                        <i class="bi bi-lightning-fill"></i>
+                    </div>
+                    <h4>Fast Transactions</h4>
+                    <p>Transfer money instantly to anyone, anywhere.</p>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-icon mb-3">
+                        <i class="bi bi-wallet-fill"></i>
+                    </div>
+                    <h4>Easy Wallet</h4>
+                    <p>Manage your wallet and track spending effortlessly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+    <!-- Footer -->
+    <th:block th:replace="~{footer.html}"></th:block>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

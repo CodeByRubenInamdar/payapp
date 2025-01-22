@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Successful</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #f0f4f7, #d9e4ec);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            background: #ffffff;
+        }
+
+        .success-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: #28a745;
+            margin: 20px auto;
+            display: block;
+            position: relative;
+            animation: blink 1.5s infinite;
+        }
+
+        .success-circle::before {
+            content: '\2713';
+            font-size: 60px;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        h3.text-success {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .transaction-details {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .detail-item {
+            margin: 10px 0;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .btn-primary {
+            margin-top: 30px;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            background: linear-gradient(to right, #007bff, #0056b3);
+            border: none;
+            color: white;
+            transition: background 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, #0056b3, #003a80);
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                padding: 20px;
+            }
+
+            .success-circle {
+                width: 100px;
+                height: 100px;
+            }
+
+            h3.text-success {
+                font-size: 1.25rem;
+            }
+
+            p {
+                font-size: 0.9rem;
+            }
+
+            .btn-primary {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card text-center">
+            <div class="success-circle"></div>
+            <h3 class="text-success">Transaction Successful!</h3>
+            <p>Your money has been sent successfully.</p>
+
+            <div class="transaction-details">
+                <div class="detail-item">
+                    <span class="label">Sender Name:</span>
+                    <span th:text="${senderName}">John Doe</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Receiver Name:</span>
+                    <span th:text="${receiverName}">Jane Smith</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Amount Sent:</span>
+                    <span th:text="${amount}">$500</span>
+                </div>
+            </div>
+
+            <a href="/transactions/history" class="btn btn-primary">View Transaction History</a>
+            <a href="/" class="btn btn-secondary mt-3">Go to Home</a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

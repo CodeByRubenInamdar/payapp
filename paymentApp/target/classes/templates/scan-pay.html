@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan & Pay</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/instascan/1.0.0/instascan.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Google Pay App</a>
+    </nav>
+    <div class="container my-5">
+        <h2>Scan & Pay</h2>
+        <video id="scanner" class="border w-100" style="height: 300px;"></video>
+        <div class="mt-3">
+            <label for="scanResult" class="form-label">Scan Result</label>
+            <input type="text" id="scanResult" class="form-control" readonly>
+        </div>
+    </div>
+
+    <script>
+        let scanner = new Instascan.Scanner({ video: document.getElementById('scanner') });
+        scanner.addListener('scan', function (content) {
+            document.getElementById('scanResult').value = content;
+            alert("Scanned Info: " + content);
+        });
+        Instascan.Camera.getCameras().then(function (cameras) {
+            if (cameras.length > 0) {
+                scanner.start(cameras[0]);
+            } else {
+                alert('No cameras found.');
+            }
+        }).catch(function (e) {
+            console.error(e);
+        });
+    </script>
+</body>
+</html>

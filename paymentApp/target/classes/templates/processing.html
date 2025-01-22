@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processing Transaction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
+            font-family: 'Arial', sans-serif;
+        }
+
+        .spinner-wrapper {
+            text-align: center;
+        }
+
+        .spinner-border {
+            width: 5rem;
+            height: 5rem;
+            color: #007bff;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="spinner-wrapper">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="message">Processing your transaction...</p>
+    </div>
+
+    <script>
+        // Retrieve transaction status from the backend (using Thymeleaf)
+        const transactionStatus = /*[[${transactionStatus}]]*/ 'success'; // Default value for testing
+
+        setTimeout(function () {
+            if (transactionStatus === 'success') {
+                window.location.href = "/transactions/success"; // Redirect to success page
+            } else {
+                window.location.href = "/transactions/failed"; // Redirect to failed page
+            }
+        }, 3000); // Wait for 3 seconds before redirecting
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm PIN</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h2 class="mt-5">Confirm Your PIN</h2>
+        <form action="/transactions/confirm-pin" method="post">
+            <div class="mb-3">
+                <label for="pin" class="form-label">Enter PIN</label>
+                <input type="password" class="form-control" id="pin" name="pin" required>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Confirm</button>
+            </div>
+        </form>
+
+        <!-- Display error message if PIN is invalid -->
+        <div class="alert alert-danger" th:if="${error}" role="alert">
+            <p th:text="${error}">Invalid PIN. Please try again.</p>
+        </div>
+    </div>
+</body>
+</html>

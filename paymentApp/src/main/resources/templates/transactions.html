@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        /* Existing styles */
+        body {
+            background: linear-gradient(to bottom, #f0f8ff, #e0f7fa);
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #007bff;
+        }
+
+        .navbar a {
+            color: white;
+        }
+
+        .transaction-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .transaction-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .transaction-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .transaction-details h5 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .transaction-details p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .amount {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .transaction-status {
+            font-size: 1rem;
+            font-weight: bold;
+            padding: 6px 12px;
+            border-radius: 5px;
+            text-transform: uppercase;
+        }
+
+        .status-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .status-failed {
+            background-color: #dc3545;
+            color: red;
+        }
+
+        .status-pending {
+            background-color: #ffc107;
+            color: white;
+        }
+
+        .transaction-type {
+            font-size: 1rem;
+            color: #6c757d;
+        }
+
+        .date {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        /* For responsiveness */
+        @media (max-width: 768px) {
+            .transaction-details {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar Placeholder -->
+    <th:block th:replace="~{navbar.html}"></th:block>
+
+    <div class="container mt-5">
+        <h2 class="mb-4 text-center">Transaction History</h2>
+        <div th:each="transaction : ${transactions}">
+            <div class="transaction-card">
+                <div class="transaction-details">
+                    <div>
+                        <h5 th:text="${transaction.sender.name}"></h5>
+                        <p th:if="${loggedInUser.id == transaction.sender.id}" class="transaction-type">You sent money to 
+                            <span th:text="${transaction.receiver.name}"></span>
+                        </p>
+                        <p th:if="${loggedInUser.id == transaction.receiver.id}" class="transaction-type">You received money from 
+                            <span th:text="${transaction.sender.name}"></span>
+                        </p>
+                    </div>
+                    <div class="amount" th:text="${transaction.amount}"></div>
+                </div>
+
+                <div class="transaction-details">
+                    <div>
+                        <p class="date" th:text="${transaction.transactionTime}"></p>
+                    </div>
+                    <div class="transaction-status" 
+                         th:class="${transaction.transactionStatus == 'SUCCESS' ? 'status-success' : 
+                                     transaction.transactionStatus == 'FAILED' ? 'status-failed' : 
+                                     transaction.transactionStatus == 'PENDING' ? 'status-pending' : ''}">
+                        <span th:text="${transaction.transactionStatus != null ? transaction.transactionStatus : 'Unknown'}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <th:block th:replace="~{footer.html}"></th:block>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

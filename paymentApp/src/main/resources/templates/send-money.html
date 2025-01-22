@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Money</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    <th:block th:replace="~{navbar.html}"></th:block>
+    <div class="container my-5">
+        <div class="card shadow-lg p-4">
+            <h2 class="text-center text-primary fw-bold">Send Money</h2>
+            <form action="/transactions/send" method="post" id="sendMoneyForm">
+                <!-- Sender Details -->
+                <div class="mb-3">
+                    <label for="senderName" class="form-label">Sender Name</label>
+                    <input type="text" class="form-control" id="senderName" name="senderName" th:value="${senderName}" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="senderPhoneNumber" class="form-label">Sender Phone Number</label>
+                    <input type="text" class="form-control" id="senderPhoneNumber" name="senderPhoneNumber" th:value="${senderPhoneNumber}" readonly>
+                </div>
+
+                <!-- Receiver Details -->
+                <div class="mb-3">
+                    <label for="receiverName" class="form-label">Receiver Name</label>
+                    <select class="form-select" id="receiverName" name="receiverName" required>
+                        <option value="" disabled selected>Select a Receiver</option>
+                        <th:block th:each="user : ${users}">
+                            <option th:value="${user.name}" th:text="${user.name}" th:data-phone="${user.phoneNumber}"></option>
+                        </th:block>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="receiverPhoneNumber" class="form-label">Receiver Phone Number</label>
+                    <input type="text" class="form-control" id="receiverPhoneNumber" name="receiverPhoneNumber" readonly required>
+                </div>
+
+                <!-- Transaction Details -->
+                <div class="mb-3">
+                    <label for="amount" class="form-label">Amount</label>
+                    <input type="number" class="form-control" id="amount" name="amount" required>
+                </div>
+
+                <!-- Confirm PIN Section -->
+                <div id="pinSection" class="mb-3" style="display: none;">
+                    <label for="pinInput" class="form-label">Enter PIN</label>
+                    <input type="password" class="form-control" id="pinInput" name="pin" required>
+                </div>
+
+                <!-- Buttons -->
+                <button type="button" class="btn btn-primary" id="showPinButton">Send Money</button>
+                <button type="button" id="confirmPin" class="btn btn-primary mt-3" style="display: none;">Confirm PIN</button>
+            </form>
+        </div>
+    </div>
+    <th:block th:replace="~{footer.html}"></th:block>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const receiverNameSelect = document.getElementById("receiverName");
+            const receiverPhoneNumberInput = document.getElementById("receiverPhoneNumber");
+            const showPinButton = document.getElementById("showPinButton");
+            const confirmPinButton = document.getElementById("confirmPin");
+            const pinInput = document.getElementById("pinInput");
+            const pinSection = document.getElementById("pinSection");
+            const sendMoneyForm = document.getElementById("sendMoneyForm");
+
+            // Set receiver phone number when receiver is selected
+            receiverNameSelect.addEventListener("change", function () {
+                const selectedOption = receiverNameSelect.selectedOptions[0];
+                const receiverPhoneNumber = selectedOption.getAttribute("data-phone");
+                receiverPhoneNumberInput.value = receiverPhoneNumber || "";
+            });
+
+            // Restrict invalid characters in text fields
+            const textFields = document.querySelectorAll('input[type="text"], select');
+            textFields.forEach(field => {
+                field.addEventListener("input", function () {
+                    this.value = this.value.replace(/[^a-zA-Z0-9\s]/g, '');
+                });
+            });
+
+            // Restrict invalid characters in numeric fields
+            const amountField = document.getElementById("amount");
+            amountField.addEventListener("input", function () {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+
+            // Show PIN input when the "Send Money" button is clicked
+            showPinButton.addEventListener("click", function (event) {
+                event.preventDefault();
+                pinSection.style.display = "block";
+                confirmPinButton.style.display = "block";
+                showPinButton.style.display = "none";
+            });
+
+            // Handle PIN verification when "Confirm PIN" button is clicked
+            confirmPinButton.addEventListener("click", function (event) {
+                event.preventDefault();
+
+                const pin = pinInput.value.trim();
+                if (!pin) {
+                    alert("Please enter a PIN.");
+                    return;
+                }
+
+                // AJAX request to verify PIN (you may want to add more logic to handle this on the server)
+                $.ajax({
+                    url: '/transactions/verifyPin',
+                    type: 'POST',
+                    data: { pin: pin },
+                    success: function (response) {
+                        if (response.valid) {
+                            // Proceed with form submission after successful PIN verification
+                            sendMoneyForm.submit();
+                        } else {
+                            alert("Invalid PIN. Please try again.");
+                        }
+                    },
+                    error: function () {
+                        alert("An error occurred while verifying the PIN. Please try again.");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

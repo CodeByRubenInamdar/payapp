@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Notifications</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .notification-card {
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .notification-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .notification-message {
+            font-size: 1rem;
+            color: #495057;
+            margin-bottom: 10px;
+        }
+
+        .notification-timestamp {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .mark-all-read-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px 15px;
+            font-size: 1rem;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .mark-all-read-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Notifications</h1>
+
+    <ul>
+        <li th:each="notification : ${notifications}" class="notification-card">
+            <p class="notification-title" th:text="${notification.title}"></p>
+            <p class="notification-message" th:text="${notification.message}"></p>
+            <p class="notification-timestamp" th:text="${notification.timestamp}"></p>
+        </li>
+    </ul>
+
+    <form action="/notifications/read" method="post">
+        <button type="submit" class="mark-all-read-btn">Mark All as Read</button>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

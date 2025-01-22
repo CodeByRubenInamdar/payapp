@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>PayApp - Login</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <style>
+        .hero-section {
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin: 10px 0 30px;
+        }
+
+        .form-section {
+            padding: 50px 20px;
+            background-color: #f8f9fa;
+        }
+
+        .footer {
+            background: #343a40;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .logo {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+        .google-btn {
+            background-color: #4285F4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .google-btn:hover {
+            background-color: #357AE8;
+        }
+
+        .google-btn i {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <th:block th:replace="~{navbar.html}"></th:block>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <h1 class="hero-title">Login to PayApp</h1>
+        <p class="hero-subtitle">Access your account and manage your transactions with ease.</p>
+    </section>
+
+    <!-- Login Form Section -->
+    <section class="form-section">
+        <div class="container">
+            <h2 class="text-center mb-4">Login</h2>
+
+            
+
+            <form action="/users/login" method="POST">
+                <!-- Error Message -->
+                <div th:if="${error}" class="error-message text-center">
+                    <p th:text="${error}"></p>
+                </div>
+
+                <!-- Login Option Toggle -->
+                <div class="mb-3 text-center">
+                    <input type="radio" id="emailOption" name="loginOption" value="email" checked onchange="toggleLoginOption()">
+                    <label for="emailOption">Login with Email</label>
+
+                    <input type="radio" id="phoneOption" name="loginOption" value="phone" onchange="toggleLoginOption()">
+                    <label for="phoneOption">Login with Phone Number</label>
+                </div>
+
+                <!-- Email Input -->
+                <div class="mb-3" id="emailField">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+                </div>
+
+                <!-- Phone Number Input -->
+                <div class="mb-3 d-none" id="phoneField">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number">
+                </div>
+
+                <!-- Password Input -->
+                <div class="mb-3 position-relative">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                        <button type="button" class="btn btn-outline-secondary" id="togglePassword" aria-label="Show/Hide Password">
+                            <i class="bi bi-eye" id="passwordIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Remember Me Checkbox -->
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
+                    <label class="form-check-label" for="rememberMe">Remember Me</label>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </div>
+
+				
+				<div class="google-login-btn">
+				    <div class="g_id_signin"></div>
+				</div>
+				
+                <!-- Google Login Button -->
+                <div class="text-center mt-3">
+                    <a href="/login" class="google-btn">
+                        <i class="bi bi-google"></i> Login with Google
+                    </a>
+                </div>
+				
+                <!-- Forgot Password Link -->
+                <div class="text-center mt-3">
+                    <p><a href="/users/forgot-password" class="text-primary">Forgot Password?</a></p>
+                </div>
+
+                <!-- Register Link -->
+                <div class="text-center">
+                    <p>Don't have an account? <a href="/users/register" class="text-primary">Register Here</a></p>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <th:block th:replace="~{footer.html}"></th:block>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Toggle Login Option Script -->
+    <script>
+        function toggleLoginOption() {
+            const emailField = document.getElementById('emailField');
+            const phoneField = document.getElementById('phoneField');
+            const emailOption = document.getElementById('emailOption').checked;
+
+            if (emailOption) {
+                emailField.classList.remove('d-none');
+                phoneField.classList.add('d-none');
+            } else {
+                phoneField.classList.remove('d-none');
+                emailField.classList.add('d-none');
+            }
+        }
+
+        const passwordInput = document.getElementById('password');
+        const togglePasswordButton = document.getElementById('togglePassword');
+        const passwordIcon = document.getElementById('passwordIcon');
+
+        togglePasswordButton.addEventListener('click', () => {
+            const isPasswordHidden = passwordInput.type === 'password';
+            passwordInput.type = isPasswordHidden ? 'text' : 'password';
+            passwordIcon.classList.toggle('bi-eye', !isPasswordHidden);
+            passwordIcon.classList.toggle('bi-eye-slash', isPasswordHidden);
+        });
+		
+		
+    </script>
+	
+</body>
+
+</html>

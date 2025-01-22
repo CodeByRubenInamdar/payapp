@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Failed</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #f8d7da, #f5c6cb);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            background: #ffffff;
+        }
+
+        .error-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: #dc3545;
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 60px;
+            color: white;
+            font-weight: bold;
+            animation: shake 0.5s infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-5px);
+            }
+            75% {
+                transform: translateX(5px);
+            }
+        }
+
+        h3.text-danger {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .transaction-details {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .detail-item {
+            margin: 10px 0;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #dc3545;
+        }
+
+        .btn-danger,
+        .btn-primary,
+        .btn-secondary {
+            margin-top: 10px;
+            padding: 10px 25px;
+            font-size: 16px;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+
+        .btn-danger {
+            background: linear-gradient(to right, #dc3545, #b52d3c);
+            border: none;
+            color: white;
+            transition: background 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(to right, #b52d3c, #921a2a);
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #007bff, #0056b3);
+            border: none;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, #0056b3, #003a80);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to right, #6c757d, #545b62);
+            border: none;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(to right, #545b62, #40474d);
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                padding: 20px;
+            }
+
+            .error-circle {
+                width: 100px;
+                height: 100px;
+                font-size: 50px;
+            }
+
+            h3.text-danger {
+                font-size: 1.25rem;
+            }
+
+            p {
+                font-size: 0.9rem;
+            }
+
+            .btn-danger,
+            .btn-primary,
+            .btn-secondary {
+                font-size: 14px;
+                padding: 8px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card text-center">
+            <div class="error-circle">!</div>
+            <h3 class="text-danger">Transaction Failed</h3>
+            <p>We encountered an issue with your transaction. Please try again.</p>
+
+            <div class="transaction-details">
+                
+                <div class="detail-item">
+                    <span class="label">Status:</span>
+                    <span th:text="${status}">Failed</span>
+                </div>
+            </div>
+
+            <a href="/transactions/send" class="btn btn-danger">Try Again</a>
+            <a href="/users/check-balance" class="btn btn-primary">Veiw Balance</a>
+            <a href="/" class="btn btn-secondary">Go to Home</a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
