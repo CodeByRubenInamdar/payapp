@@ -100,10 +100,6 @@ ng serve
 
 ---
 
-## 📸 Screenshots (Optional)  
-_Add frontend screenshots here if available._
-
----
 
 ## 🤝 Contributing  
 1. Fork the repository  
